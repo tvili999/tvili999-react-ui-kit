@@ -1,0 +1,25 @@
+.ButtonBar
+    display flex
+    flex-flow row nowrap
+    align-items center
+
+    &&--left
+        justify-content flex-start
+
+    &&--center
+        justify-content center
+
+    &&--right
+        justify-content flex-end
+
+    &&--between
+        justify-content space-between
+
+    &&--around
+        justify-content space-around
+
+    &&--stretch
+        justify-content stretch
+
+    > *:not(:first-child)
+        margin-left 12px
