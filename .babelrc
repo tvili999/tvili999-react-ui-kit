@@ -4,11 +4,23 @@
             "useBuiltIns": "usage",
             "corejs": 3
         }], 
-        "@babel/preset-react"
+        ["@babel/preset-react", {
+            "runtime": "automatic"
+        }]
     ],
     "plugins": [
         "@babel/plugin-proposal-class-properties",
         "@babel/plugin-proposal-object-rest-spread",
-        "@babel/plugin-proposal-optional-chaining"
+        "@babel/plugin-proposal-optional-chaining",
+        ["babel-plugin-module-resolver", {
+            "root": "./src",
+            "alias": {
+              "@common": "./common",
+              "@contexts": "./contexts",
+              "@layouts": "./layouts",
+              "@popups": "./popups",
+              "@utils": "./utils",
+            }
+        }]
     ]
 }

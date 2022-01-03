@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "es6",
+    "paths": {
+      "common/*": ["./src/common/*"],
+      "contexts/*": ["./src/contexts/*"],
+      "utils/*": ["./src/utils/*"]
+    }
+  }
+}

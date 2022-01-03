@@ -1,3 +1,8 @@
-node_modules/
-dist/
-yarn.lock
+/*
+!.gitignore
+!package.json
+!.babelrc
+!webpack.config.js
+!src/
+!jsconfig.json
+!yarn.lock
