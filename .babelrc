@@ -16,10 +16,9 @@
             "root": "./src",
             "alias": {
               "@common": "./common",
+              "@containers": "./containers",
               "@contexts": "./contexts",
-              "@layouts": "./layouts",
-              "@popups": "./popups",
-              "@utils": "./utils",
+              "@utils": "./utils"
             }
         }]
     ]

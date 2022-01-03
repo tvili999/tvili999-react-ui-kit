@@ -4,6 +4,7 @@
     "paths": {
       "common/*": ["./src/common/*"],
       "contexts/*": ["./src/contexts/*"],
+      "containers/*": ["./src/containers/*"],
       "utils/*": ["./src/utils/*"]
     }
   }

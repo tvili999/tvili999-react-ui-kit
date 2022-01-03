@@ -1,0 +1,1 @@
+export { PagesContainer, withPages } from "./Pages";
