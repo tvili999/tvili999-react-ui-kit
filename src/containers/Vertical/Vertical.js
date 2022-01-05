@@ -9,12 +9,19 @@ const getAlignment = (align) => {
     return align;
 }
 
-export default ({ className, style, align, ...props }) => (
+export default ({ className, style, scroll, gap, align, ...props }) => (
     <div
         className={classnames("Vertical", className)}
-        style={styles({
-            justifyContent: getAlignment(align)
-        }, style)}
+        style={styles(
+            {
+                justifyContent: getAlignment(align),
+                gap: typeof gap === "number" ? gap + 'px' : typeof gap === "string" ? gap : '12px'
+            },
+            scroll && {
+                overflow: "auto"
+            },
+            style
+        )}
         {...props}
      />
 )

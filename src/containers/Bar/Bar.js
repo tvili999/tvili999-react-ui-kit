@@ -9,11 +9,12 @@ const getAlignment = (align) => {
     return align;    
 }
 
-export default ({ className, style, align, ...props }) => (
+export default ({ className, style, gap, align, ...props }) => (
     <div
         className={classnames("Bar", className)}
         style={styles({
-            justifyContent: getAlignment(align) || "space-around"
+            justifyContent: getAlignment(align) || "space-around",
+            gap: typeof gap === "number" ? gap + 'px' : typeof gap === "string" ? gap : '8px'
         }, style)}
         {...props}
     />
