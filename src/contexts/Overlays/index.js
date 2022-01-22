@@ -1,1 +1,1 @@
-export { OverlaysConsumer, OverlaysProvider, withOverlays, OverlayContainer } from "./Overlays";
+export { OverlaysConsumer, OverlaysProvider, withOverlays, OverlayContainer, withOverlay } from "./Overlays";

@@ -3,16 +3,24 @@ import classnames from "classnames";
 
 import styles from "utils/styles";
 
-import { withOverlays } from "contexts/Overlays/Overlays";
+import { withOverlay } from "contexts/Overlays/Overlays";
 
 import "./Overlay.styl";
 
-const Overlay = ({ className, center, overlayClassName, backgroundColor, children, style, overlays }) => {
+const Overlay = ({
+    className,
+    center,
+    overlayClassName,
+    backgroundColor,
+    children,
+    style,
+    overlay,
+}) => {
     const outsideRef = React.createRef();
     const outsideClick = (e) => {
         if(e.target !== outsideRef.current)
             return;
-        overlays.close();
+        overlay.close();
     }
 
     return (
@@ -37,4 +45,4 @@ const Overlay = ({ className, center, overlayClassName, backgroundColor, childre
     )
 }
 
-export default withOverlays(Overlay);
+export default withOverlay(Overlay);
