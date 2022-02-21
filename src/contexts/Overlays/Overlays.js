@@ -54,6 +54,8 @@ export const {
                 }
 
                 setOverlays([...overlays, overlay])
+
+                return overlay;
             }
     }
 })

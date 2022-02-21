@@ -42,7 +42,7 @@ const functional = {
         return merged;
     },
     replaceIndex: (array, index, value) => {
-        array = array || []
+        array = array || [];
         return array.map((x, i) => i === index ? value : x);
     },
     upsert: (array, predicate, value) => {

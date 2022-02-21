@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import compose from "./compose"
 
 export default (name, callback, ...hocs) => {
     name = name[0].toUpperCase() + name.substr(1);
     let lowerName = name[0].toLowerCase() + name.substr(1);
 
-    const { Provider, Consumer } = React.createContext();
+    const Context = React.createContext();
 
     class StatefulProvider extends Component {
         displayName = `${name}Provider`
@@ -13,7 +13,7 @@ export default (name, callback, ...hocs) => {
         constructor(props) {
             super(props);
 
-            this.state = callback.call(this, this);
+            this.state = callback.call(this, props);
         }
 
         onMount = []
@@ -34,9 +34,9 @@ export default (name, callback, ...hocs) => {
     
         render() {
             return (
-                <Provider value={this.state}>
+                <Context.Provider value={this.state}>
                     {this.props.children}
-                </Provider>
+                </Context.Provider>
             )
         }
     }
@@ -45,24 +45,23 @@ export default (name, callback, ...hocs) => {
         StatefulProvider = compose(...hocs)(StatefulProvider);
     
     const withContext = (Component) => {
-        const hoc = (props) => (
-            <Consumer>
-                {context => (
-                    <Component {...{
-                        [lowerName]: context,
-                        ...props,
-                    }} />
-                )}
-            </Consumer>
-        )
+        const hoc = (props) => {
+            const context = useContext(Context);
+            return (
+                <Component {...{
+                    [lowerName]: context,
+                    ...props,
+                }} />
+            )
+        }
         hoc.displayName = `with${name}()`;
     
         return hoc;
     }
     
     return {
+        [name]: Context,
         [`${name}Provider`]: StatefulProvider,
-        [`${name}Consumer`]: Consumer,
         [`with${name}`]: withContext
     }
 }

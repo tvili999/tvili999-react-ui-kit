@@ -7,23 +7,32 @@ export class PagesContainer extends Component {
         pages: [],
         pageParams: null,
         open: (render, params) => {
-            this.setState({
-                pages: [...this.state.pages, render],
-                pageParams: params
-            })
-        },
-        render: () => {
-            if(this.state.pages.length == 0)
-                return null;
-            const page = this.state.pages[this.state.pages.length - 1];
-            return page?.({
-                pageParams: this.state.pageParams,
+            const page = {
+                render,
                 close: (params) => {
                     this.setState({
                         pages: this.state.pages.filter(x => x !== page),
                         pageParams: params
                     })
                 }
+            }
+            this.setState({
+                pages: [...this.state.pages, page],
+                pageParams: params
+            })
+
+            return page;
+        },
+        openComponent: (Component, props, params) => {
+            this.state.open(page => <Component page={page} {...props}/>, params);
+        },
+        render: () => {
+            if(this.state.pages.length == 0)
+                return null;
+            const page = this.state.pages[this.state.pages.length - 1];
+            return page?.render?.({
+                pageParams: this.state.pageParams,
+                close: page?.close
             });
         }
     }
