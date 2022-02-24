@@ -1,29 +1,29 @@
 {
-  "name": "tvili999-react-ui-kit",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "exports": {
-    "./": "./lib/"
-  },
-  "scripts": {
-    "start": "babel -w -D --verbose -d lib src",
-    "start": "babel -D --verbose -d lib src"
-  },
-  "dependencies": {
-    "classnames": "^2.3.1",
-    "core-js": "^3.20.2",
-    "react": "^17.0.2",
-    "react-icons": "^4.3.1"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.16.7",
-    "@babel/core": "^7.16.7",
-    "@babel/plugin-proposal-class-properties": "^7.16.7",
-    "@babel/plugin-proposal-object-rest-spread": "^7.16.7",
-    "@babel/plugin-proposal-optional-chaining": "^7.16.7",
-    "@babel/preset-env": "^7.16.7",
-    "@babel/preset-react": "^7.16.7",
-    "babel-plugin-module-resolver": "^4.1.0"
-  }
+    "name": "tvili999-react-ui-kit",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "exports": {
+        "./": "./lib/"
+    },
+    "scripts": {
+        "start": "babel -w -D --verbose -d lib src",
+        "build": "babel -D --verbose -d lib src"
+    },
+    "dependencies": {
+        "classnames": "^2.3.1",
+        "core-js": "^3.20.2",
+        "react": "^17.0.2",
+        "react-icons": "^4.3.1"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.16.7",
+        "@babel/core": "^7.16.7",
+        "@babel/plugin-proposal-class-properties": "^7.16.7",
+        "@babel/plugin-proposal-object-rest-spread": "^7.16.7",
+        "@babel/plugin-proposal-optional-chaining": "^7.16.7",
+        "@babel/preset-env": "^7.16.7",
+        "@babel/preset-react": "^7.16.7",
+        "babel-plugin-module-resolver": "^4.1.0"
+    }
 }
