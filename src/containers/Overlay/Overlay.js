@@ -16,33 +16,45 @@ const Overlay = ({
     style,
     overlay,
 }) => {
-    const outsideRef = React.createRef();
-    const outsideClick = (e) => {
-        if(e.target !== outsideRef.current)
-            return;
+    const outsideRef = React.useRef();
+
+    const downHere = React.useRef(false);
+
+    const outsideUp = (e) => {
+        if (!downHere.current) return;
+        downHere.current = false;
+        if (e.target !== outsideRef.current) return;
         overlay.close();
-    }
+    };
+    const outsideDown = (e) => {
+        if (e.target !== outsideRef.current) return;
+        downHere.current = true;
+    };
 
     return (
-        <div 
+        <div
             ref={outsideRef}
             className={classnames("Overlay", overlayClassName)}
             style={styles(
                 backgroundColor && { backgroundColor },
                 center && {
-                    display: 'flex',
-                    flexFlow: 'row nowrap',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    display: "flex",
+                    flexFlow: "row nowrap",
+                    alignItems: "center",
+                    justifyContent: "center",
                 }
             )}
-            onClick={outsideClick}
+            onMouseUp={outsideUp}
+            onMouseDown={outsideDown}
         >
-            <div className={classnames("Overlay__content", className)} style={style}>
+            <div
+                className={classnames("Overlay__content", className)}
+                style={style}
+            >
                 {children}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withOverlay(Overlay);
