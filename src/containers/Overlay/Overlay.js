@@ -7,54 +7,62 @@ import { withOverlay } from "contexts/Overlays/Overlays";
 
 import "./Overlay.styl";
 
-const Overlay = ({
-    className,
-    center,
-    overlayClassName,
-    backgroundColor,
-    children,
-    style,
-    overlay,
-}) => {
-    const outsideRef = React.useRef();
+class Overlay extends React.Component {
+    __outsideRef = React.createRef();
 
-    const downHere = React.useRef(false);
-
-    const outsideUp = (e) => {
-        if (!downHere.current) return;
-        downHere.current = false;
-        if (e.target !== outsideRef.current) return;
-        overlay.close();
-    };
-    const outsideDown = (e) => {
-        if (e.target !== outsideRef.current) return;
-        downHere.current = true;
+    close = () => {
+        this.props.overlay.close();
     };
 
-    return (
-        <div
-            ref={outsideRef}
-            className={classnames("Overlay", overlayClassName)}
-            style={styles(
-                backgroundColor && { backgroundColor },
-                center && {
-                    display: "flex",
-                    flexFlow: "row nowrap",
-                    alignItems: "center",
-                    justifyContent: "center",
-                }
-            )}
-            onMouseUp={outsideUp}
-            onMouseDown={outsideDown}
-        >
+    __downHere = false;
+
+    __outsideUp = (e) => {
+        if (!this.__downHere) return;
+        this.__downHere = false;
+        if (e.target !== this.__outsideRef.current) return;
+        this.close();
+    };
+    __outsideDown = (e) => {
+        if (e.target !== this.__outsideRef.current) return;
+        this.__downHere = true;
+    };
+
+    render() {
+        const {
+            className,
+            center,
+            overlayClassName,
+            backgroundColor,
+            children,
+            style,
+            overlay,
+        } = this.props;
+
+        return (
             <div
-                className={classnames("Overlay__content", className)}
-                style={style}
+                ref={this.__outsideRef}
+                className={classnames("Overlay", overlayClassName)}
+                style={styles(
+                    backgroundColor && { backgroundColor },
+                    center && {
+                        display: "flex",
+                        flexFlow: "row nowrap",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }
+                )}
+                onMouseUp={this.__outsideUp}
+                onMouseDown={this.__outsideDown}
             >
-                {children}
+                <div
+                    className={classnames("Overlay__content", className)}
+                    style={style}
+                >
+                    {children}
+                </div>
             </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
-export default withOverlay(Overlay);
+export default withOverlay.forwardRef(Overlay);
