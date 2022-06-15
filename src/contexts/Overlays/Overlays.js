@@ -4,45 +4,40 @@ import createHoc from "utils/createHoc";
 
 const OverlayContext = React.createContext(null);
 
-export const withOverlay = createHoc(OverlayContext.Consumer, "overlay")
+export const withOverlay = createHoc(OverlayContext.Consumer, "overlay");
 
-export const {
-    OverlaysProvider,
-    OverlaysConsumer,
-    withOverlays
-} = createContext("Overlays", function () {
-    let nextId = 1;
+export const { OverlaysProvider, OverlaysConsumer, withOverlays } =
+    createContext("Overlays", function () {
+        let nextId = 1;
 
-    let overlays = [];
+        let overlays = [];
 
-    const setOverlays = (_overlays) => {
-        overlays = _overlays;
-        this.setState({ overlays })
-    }
+        const setOverlays = (_overlays) => {
+            overlays = _overlays;
+            this.setState({ overlays });
+        };
 
-    return {
-            overlays:  [],
+        return {
+            overlays: [],
             render: () => {
-                if(this.state.overlays.length === 0)
-                    return null;
+                if (this.state.overlays.length === 0) return null;
 
-                const overlay = this.state.overlays[this.state.overlays.length - 1];
-                return (
-                    <OverlayContext.Provider value={overlay} >
+                return this.state.overlays.map((overlay) => (
+                    <OverlayContext.Provider value={overlay} key={overlay.id}>
                         {overlay.render(overlay.close, overlay)}
                     </OverlayContext.Provider>
-                );
+                ));
             },
             closeAll: () => {
-                setOverlays([])
+                setOverlays([]);
             },
             close: (id) => {
-                if(!id) {
-                    console.error("DEPRECATED use closeAll")
-                    this.state.closeAll()
-                    return
+                if (!id) {
+                    console.error("DEPRECATED use closeAll");
+                    this.state.closeAll();
+                    return;
                 }
-                setOverlays(overlays.filter(x => x.id !== id))
+                setOverlays(overlays.filter((x) => x.id !== id));
             },
             open: (render) => {
                 const id = nextId++;
@@ -50,14 +45,16 @@ export const {
                 const overlay = {
                     id,
                     close: () => this.state.close(id),
-                    render
-                }
+                    render,
+                };
 
-                setOverlays([...overlays, overlay])
+                setOverlays([...overlays, overlay]);
 
                 return overlay;
-            }
-    }
-})
+            },
+        };
+    });
 
-export const OverlayContainer = withOverlays(({ overlays }) => overlays.render())
+export const OverlayContainer = withOverlays(({ overlays }) =>
+    overlays.render()
+);
