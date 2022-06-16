@@ -6,55 +6,60 @@ const OverlayContext = React.createContext(null);
 
 export const withOverlay = createHoc(OverlayContext.Consumer, "overlay");
 
-export const { OverlaysProvider, OverlaysConsumer, withOverlays } =
-    createContext("Overlays", function () {
-        let nextId = 1;
+export const { OverlaysProvider, OverlaysConsumer, withOverlays } = createContext("Overlays", function () {
+    let nextId = 1;
 
-        let overlays = [];
+    let overlays = [];
 
-        const setOverlays = (_overlays) => {
-            overlays = _overlays;
-            this.setState({ overlays });
-        };
+    const setOverlays = (_overlays) => {
+        overlays = _overlays;
+        this.setState({ overlays });
+    };
 
-        return {
-            overlays: [],
-            render: () => {
-                if (this.state.overlays.length === 0) return null;
+    return {
+        overlays: [],
+        render: () => {
+            if (this.state.overlays.length === 0) return null;
 
-                return this.state.overlays.map((overlay) => (
-                    <OverlayContext.Provider value={overlay} key={overlay.id}>
-                        {overlay.render(overlay.close, overlay)}
-                    </OverlayContext.Provider>
-                ));
-            },
-            closeAll: () => {
-                setOverlays([]);
-            },
-            close: (id) => {
-                if (!id) {
-                    console.error("DEPRECATED use closeAll");
-                    this.state.closeAll();
-                    return;
-                }
-                setOverlays(overlays.filter((x) => x.id !== id));
-            },
-            open: (render) => {
-                const id = nextId++;
+            return this.state.overlays.map((overlay) => (
+                <OverlayContext.Provider value={overlay} key={overlay.id}>
+                    {overlay.render(overlay.close, overlay)}
+                </OverlayContext.Provider>
+            ));
+        },
+        closeAll: () => {
+            setOverlays([]);
+        },
+        close: (id, ...args) => {
+            if (!id) {
+                console.error("DEPRECATED use closeAll");
+                this.state.closeAll();
+                return;
+            }
 
-                const overlay = {
-                    id,
-                    close: () => this.state.close(id),
-                    render,
-                };
+            const overlay = overlays.find((x) => x.id === id);
+            if (!overlay) return;
 
-                setOverlays([...overlays, overlay]);
+            const closeResult = overlay.config?.onClosing?.(...args);
+            if (closeResult === false) return;
 
-                return overlay;
-            },
-        };
-    });
+            setOverlays(overlays.filter((x) => x.id !== id));
+        },
+        open: (render, config) => {
+            const id = nextId++;
 
-export const OverlayContainer = withOverlays(({ overlays }) =>
-    overlays.render()
-);
+            const overlay = {
+                id,
+                close: () => this.state.close(id),
+                render,
+                config,
+            };
+
+            setOverlays([...overlays, overlay]);
+
+            return overlay;
+        },
+    };
+});
+
+export const OverlayContainer = withOverlays(({ overlays }) => overlays.render());
