@@ -14,13 +14,8 @@ export default ({ className, style, scroll, gap, align, ...props }) => (
         className={classnames("Vertical", className)}
         style={styles(
             {
-                alignItems: getAlignment(align),
-                gap:
-                    typeof gap === "number"
-                        ? gap + "px"
-                        : typeof gap === "string"
-                        ? gap
-                        : "12px",
+                justifyContent: getAlignment(align),
+                gap: typeof gap === "number" ? gap + "px" : typeof gap === "string" ? gap : "12px",
             },
             scroll && {
                 overflow: "auto",
