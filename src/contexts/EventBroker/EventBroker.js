@@ -3,61 +3,48 @@ import React, { Component } from "react";
 const { Provider, Consumer } = React.createContext({
     register: () => {},
     unregister: () => {},
-    emit: () => {}
+    emit: () => {},
 });
 
 export class EventBroker extends Component {
-    events = {}
+    events = {};
     api = {
         register: (event, handler) => {
-            this.events = ({
+            this.events = {
                 ...this.events,
-                [event]: [...(this.events?.[event] || []), handler]
-            })
+                [event]: [...(this.events?.[event] || []), handler],
+            };
         },
         unregister: (event, handler) => {
-            if(!this.events[event] || !this.events[event].includes(handler))
-                return;
-            this.events = ({
+            if (!this.events[event] || !this.events[event].includes(handler)) return;
+            this.events = {
                 ...this.events,
-                [event]: [...this.events?.[event], handler]
-            })
+                [event]: this.events?.[event].filter((x) => x !== handler),
+            };
         },
         emit: (event, ...parameters) => {
-            if(!this.events[event])
-                return
-            for(const handler of this.events[event])
-                handler(...parameters);
-        }
-    }
+            if (!this.events[event]) return;
+            for (const handler of this.events[event]) handler(...parameters);
+        },
+    };
 
     render() {
-        return (
-            <Provider value={this.api}>
-                {this.props.children}
-            </Provider>
-        )
+        return <Provider value={this.api}>{this.props.children}</Provider>;
     }
 }
 
-export const withEventBroker = Component => {
-    const hoc = (props) => (
-        <Consumer>
-            {eventBroker => (
-                <Component eventBroker={eventBroker} {...props}/>
-            )}
-        </Consumer>
-    )
+export const withEventBroker = (Component) => {
+    const hoc = (props) => <Consumer>{(eventBroker) => <Component eventBroker={eventBroker} {...props} />}</Consumer>;
 
     hoc.displayName = "withEventBroker()";
 
     return hoc;
-}
+};
 
 class EventListener extends Component {
     handler = (...props) => {
-        this.props.onEmit?.(props)
-    }
+        this.props.onEmit?.(...props);
+    };
     componentDidMount() {
         this.props.eventBroker.register(this.props.event, this.handler);
     }
@@ -67,8 +54,8 @@ class EventListener extends Component {
     }
 
     render() {
-        return this.props.children;
+        return this.props.children || null;
     }
 }
 EventListener = withEventBroker(EventListener);
-export { EventListener }
+export { EventListener };
