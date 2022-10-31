@@ -4,7 +4,7 @@ import createHoc from "utils/createHoc";
 
 const OverlayContext = React.createContext(null);
 
-export const withOverlay = createHoc(OverlayContext.Consumer, "overlay");
+export const withOverlay = createHoc(OverlayContext.Consumer, "overlay").forwardRef;
 
 export const { OverlaysProvider, OverlaysConsumer, withOverlays } = createContext("Overlays", function () {
     let nextId = 1;

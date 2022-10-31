@@ -66,4 +66,4 @@ class Overlay extends React.Component {
     }
 }
 
-export default withOverlay.forwardRef(Overlay);
+export default withOverlay(Overlay);
