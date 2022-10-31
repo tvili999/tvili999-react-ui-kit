@@ -11,6 +11,7 @@ class Overlay extends React.Component {
     __outsideRef = React.createRef();
 
     close = () => {
+        this.props.onClose?.()
         this.props.overlay.close();
     };
 
