@@ -7,6 +7,7 @@
         "./": "./lib/"
     },
     "scripts": {
+        "postinstall": "babel -D --verbose -d lib src",
         "start": "babel -w -D --verbose -d lib src",
         "build": "babel -D --verbose -d lib src"
     },
@@ -14,9 +15,7 @@
         "classnames": "^2.3.1",
         "core-js": "^3.20.2",
         "react": "^17.0.2",
-        "react-icons": "^4.3.1"
-    },
-    "devDependencies": {
+        "react-icons": "^4.3.1",
         "@babel/cli": "^7.16.7",
         "@babel/core": "^7.16.7",
         "@babel/plugin-proposal-class-properties": "^7.16.7",
