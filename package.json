@@ -7,6 +7,7 @@
         "./": "./lib/"
     },
     "scripts": {
+        "prepack": "babel -D --verbose -d lib src",
         "start": "babel -w -D --verbose -d lib src",
         "build": "babel -D --verbose -d lib src"
     },
